@@ -1,0 +1,21 @@
+import { Client } from '{{name}}';
+
+async function main() {
+console.log('--- {{name}} Example ---');
+
+const client = new Client({
+// Add configuration here
+});
+
+try {
+const result = await client.connect();
+console.log('Connected:', result);
+
+// Demonstrate library usage here
+console.log('Successfully demonstrated usage!');
+} catch (error) {
+console.error('Error:', error);
+}
+}
+
+main();

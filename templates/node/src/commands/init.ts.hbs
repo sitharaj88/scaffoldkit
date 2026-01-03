@@ -1,0 +1,38 @@
+/**
+* Init command
+* Initializes a new project
+*/
+import { input } from '@inquirer/prompts';
+import ora from 'ora';
+import { logger } from '../utils/logger.js';
+
+interface InitOptions {
+name?: string;
+}
+
+/**
+* Run the init command
+*/
+export async function initCommand(options: InitOptions): Promise<void> {
+    logger.info('Initializing new project...');
+
+    // Get project name
+    const name = options.name || await input({
+    message: 'Project name:',
+    default: 'my-project',
+    });
+
+    const spinner = ora(`Creating project "${name}"...`).start();
+
+    // Simulate some work
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    spinner.succeed(`Project "${name}" created successfully!`);
+
+    logger.success('Done! Next steps:');
+    logger.info(` cd ${name}`);
+    logger.info(' npm install');
+    logger.info(' npm run dev');
+    }
+
+    export default initCommand;

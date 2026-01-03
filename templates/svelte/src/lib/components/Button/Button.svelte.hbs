@@ -1,0 +1,136 @@
+<script lang="ts">
+    /**
+     * A customizable button component
+     *
+     * @example
+     * ```svelte
+     * <Button variant="primary" size="medium" onclick={() => console.log('clicked')}>
+     *   Click me
+     * </Button>
+     * ```
+     */
+
+    interface Props {
+        /**
+         * Button variant
+         * @default 'primary'
+         */
+        variant?: 'primary' | 'secondary' | 'outline';
+
+        /**
+         * Button size
+         * @default 'medium'
+         */
+        size?: 'small' | 'medium' | 'large';
+
+        /**
+         * Loading state
+         * @default false
+         */
+        loading?: boolean;
+
+        /**
+         * Disabled state
+         * @default false
+         */
+        disabled?: boolean;
+
+        /**
+         * Click handler
+         */
+        onclick?: (event: MouseEvent) => void;
+    }
+
+    let {
+        variant = 'primary',
+        size = 'medium',
+        loading = false,
+        disabled = false,
+        onclick,
+        children,
+    }: Props & { children?: any } = $props();
+
+    function handleClick(event: MouseEvent) {
+        if (!disabled && !loading && onclick) {
+            onclick(event);
+        }
+    }
+</script>
+
+<button class="button button--{variant} button--{size}" class:button--loading={loading} class:button--disabled={disabled
+    || loading} disabled={disabled || loading} onclick={handleClick}>
+    {#if loading}
+    <span class="button__loader">⏳</span>
+    {/if}
+    {@render children?.()}
+</button>
+
+<style>
+    .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        outline: none;
+        font-family: inherit;
+    }
+
+    .button--disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    /* Sizes */
+    .button--small {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .button--medium {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .button--large {
+        padding: 14px 28px;
+        font-size: 18px;
+    }
+
+    /* Variants */
+    .button--primary {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    .button--primary:hover:not(.button--disabled) {
+        background-color: #2563eb;
+    }
+
+    .button--secondary {
+        background-color: #6b7280;
+        color: white;
+    }
+
+    .button--secondary:hover:not(.button--disabled) {
+        background-color: #4b5563;
+    }
+
+    .button--outline {
+        background-color: transparent;
+        color: #3b82f6;
+        border: 2px solid #3b82f6;
+    }
+
+    .button--outline:hover:not(.button--disabled) {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    .button__loader {
+        margin-right: 8px;
+    }
+</style>

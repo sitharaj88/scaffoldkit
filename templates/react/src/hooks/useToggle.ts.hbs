@@ -1,0 +1,32 @@
+import { useState, useCallback } from 'react';
+
+/**
+* A simple toggle hook for boolean state
+*
+* @param initialValue - Initial toggle value
+* @returns Tuple of [value, toggle, setValue]
+*
+* @example
+* ```tsx
+* const [isOpen, toggle, setIsOpen] = useToggle(false);
+*
+* // Toggle the value
+* toggle();
+*
+* // Set a specific value
+* setIsOpen(true);
+* ```
+*/
+export function useToggle(
+initialValue = false
+): [boolean, () => void, (value: boolean) => void] {
+const [value, setValue] = useState(initialValue);
+
+const toggle = useCallback(() => {
+setValue((prev) => !prev);
+}, []);
+
+return [value, toggle, setValue];
+}
+
+export default useToggle;

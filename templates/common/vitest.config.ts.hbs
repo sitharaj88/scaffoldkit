@@ -1,0 +1,29 @@
+import { defineConfig } from 'vitest/config';
+{{#eq framework "vue"}}import vue from '@vitejs/plugin-vue';{{/eq}}
+{{#eq framework "react"}}import react from '@vitejs/plugin-react';{{/eq}}
+{{#eq framework "svelte"}}import { svelte } from '@sveltejs/vite-plugin-svelte';{{/eq}}
+
+export default defineConfig({
+{{#or (eq framework "vue") (eq framework "react") (eq framework "svelte")}}
+plugins: [
+{{#eq framework "vue"}}vue(),{{/eq}}
+{{#eq framework "react"}}react(),{{/eq}}
+{{#eq framework "svelte"}}svelte({ hot: false }),{{/eq}}
+],
+{{/or}}
+test: {
+globals: true,
+{{#or (eq runtimeTarget "browser") (eq runtimeTarget "universal")}}
+environment: 'jsdom',
+{{/or}}
+{{#eq runtimeTarget "node"}}
+environment: 'node',
+{{/eq}}
+include: ['src/**/*.{test,spec}.{ts,tsx}'],
+coverage: {
+provider: 'v8',
+reporter: ['text', 'json', 'html'],
+exclude: ['node_modules/', 'dist/'],
+},
+},
+});

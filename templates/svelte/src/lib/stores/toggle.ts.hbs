@@ -1,0 +1,34 @@
+import { writable } from 'svelte/store';
+
+/**
+* Creates a toggle store for boolean state
+*
+* @param initialValue - Initial toggle value
+* @returns Store with subscribe and toggle/set methods
+*
+* @example
+* ```ts
+* const toggle = createToggle(false);
+*
+* // Subscribe to changes
+* toggle.subscribe(value => console.log(value));
+*
+* // Toggle the value
+* toggle.toggle();
+*
+* // Set a specific value
+* toggle.set(true);
+* ```
+*/
+export function createToggle(initialValue = false) {
+const { subscribe, set, update } = writable(initialValue);
+
+return {
+subscribe,
+set,
+toggle: () => update((value) => !value),
+reset: () => set(initialValue),
+};
+}
+
+export default createToggle;

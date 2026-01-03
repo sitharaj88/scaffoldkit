@@ -1,0 +1,38 @@
+import { ref } from 'vue';
+
+/**
+* A simple toggle composable for boolean state
+*
+* @param initialValue - Initial toggle value
+* @returns Object with value ref and toggle/set functions
+*
+* @example
+* ```ts
+* const { value, toggle, set } = useToggle(false);
+*
+* // Toggle the value
+* toggle();
+*
+* // Set a specific value
+* set(true);
+* ```
+*/
+export function useToggle(initialValue = false) {
+const value = ref(initialValue);
+
+const toggle = () => {
+value.value = !value.value;
+};
+
+const set = (newValue: boolean) => {
+value.value = newValue;
+};
+
+return {
+value,
+toggle,
+set,
+};
+}
+
+export default useToggle;

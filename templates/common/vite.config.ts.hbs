@@ -1,0 +1,35 @@
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+{{#eq framework "vue"}}import vue from '@vitejs/plugin-vue';{{/eq}}
+{{#eq framework "react"}}import react from '@vitejs/plugin-react';{{/eq}}
+{{#eq framework "svelte"}}import { svelte } from '@sveltejs/vite-plugin-svelte';{{/eq}}
+
+export default defineConfig({
+plugins: [
+{{#eq framework "vue"}}vue(),{{/eq}}
+{{#eq framework "react"}}react(),{{/eq}}
+{{#eq framework "svelte"}}svelte(),{{/eq}}
+dts({ rollupTypes: true }),
+],
+build: {
+lib: {
+entry: './src/index.ts',
+name: '{{pascalCase (packageShortName name)}}',
+formats: [{{#eq moduleFormat "dual"}}'es', 'cjs'{{else}}'es'{{/eq}}],
+fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
+},
+rollupOptions: {
+external: [{{#eq framework "react"}}'react', 'react-dom', 'react/jsx-runtime'{{/eq}}{{#eq framework
+"vue"}}'vue'{{/eq}}{{#eq framework "svelte"}}'svelte'{{/eq}}],
+output: {
+globals: {
+{{#eq framework "react"}}react: 'React',
+'react-dom': 'ReactDOM',{{/eq}}
+{{#eq framework "vue"}}vue: 'Vue',{{/eq}}
+},
+},
+},
+sourcemap: true,
+minify: false,
+},
+});

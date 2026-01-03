@@ -1,0 +1,45 @@
+<script setup lang="ts">
+    import { ref } from 'vue';
+    import { Button, useToggle } from '{{name}}';
+
+    const count = ref(0);
+    const { value: isOn, toggle } = useToggle(false);
+</script>
+
+<template>
+    <div class="app">
+        <h1>{{name}} Example</h1>
+        <p>This example demonstrates how to use the library components.</p>
+
+        <section>
+            <h2>Button Component</h2>
+            <Button @click="count++">
+                Count: \{{ count }}
+            </Button>
+        </section>
+
+        <section>
+            <h2>useToggle Composable</h2>
+            <p>Toggle state: <strong>\{{ isOn ? 'ON' : 'OFF' }}</strong></p>
+            <button @click="toggle">Toggle</button>
+        </section>
+    </div>
+</template>
+
+<style scoped>
+    .app {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    section {
+        margin-top: 2rem;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+    }
+</style>

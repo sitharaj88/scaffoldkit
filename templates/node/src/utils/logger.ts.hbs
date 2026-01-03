@@ -1,0 +1,33 @@
+/**
+* Structured colored logging
+*/
+import chalk from 'chalk';
+
+/**
+* Logger utility with colored output
+*/
+export const logger = {
+info(message: string): void {
+console.log(chalk.blue('[INFO]'), message);
+},
+
+success(message: string): void {
+console.log(chalk.green('[OK]'), message);
+},
+
+warn(message: string): void {
+console.warn(chalk.yellow('[WARN]'), message);
+},
+
+error(message: string): void {
+console.error(chalk.red('[ERROR]'), message);
+},
+
+debug(message: string): void {
+if (process.env.DEBUG) {
+console.log(chalk.gray('[DEBUG]'), message);
+}
+},
+};
+
+export default logger;

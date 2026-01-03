@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+coverage/
+.nyc_output/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Package manager locks (keep only one)
+{{#eq packageManager "npm"}}
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+{{/eq}}
+{{#eq packageManager "yarn"}}
+package-lock.json
+pnpm-lock.yaml
+bun.lockb
+{{/eq}}
+{{#eq packageManager "pnpm"}}
+package-lock.json
+yarn.lock
+bun.lockb
+{{/eq}}
+{{#eq packageManager "bun"}}
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+{{/eq}}
+
+# Temporary
+tmp/
+temp/
+.tmp/
+.temp/

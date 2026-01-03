@@ -1,0 +1,73 @@
+{
+  "name": "@aspect/scaffold",
+  "version": "1.0.0",
+  "description": "Production-grade CLI for creating, validating, and publishing JavaScript/TypeScript libraries across all modern frameworks",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "scaffold": "./dist/bin/scaffold.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./generators": {
+      "types": "./dist/generators/index.d.ts",
+      "import": "./dist/generators/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/bin/scaffold.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "cli",
+    "scaffold",
+    "generator",
+    "library",
+    "package",
+    "npm",
+    "react",
+    "vue",
+    "svelte",
+    "typescript",
+    "framework-agnostic"
+  ],
+  "author": "Sitharaj",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "@inquirer/prompts": "^7.2.0",
+    "ora": "^8.1.1",
+    "fs-extra": "^11.2.0",
+    "glob": "^11.0.0",
+    "semver": "^7.6.3",
+    "validate-npm-package-name": "^6.0.0",
+    "handlebars": "^4.7.8",
+    "execa": "^9.5.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.2",
+    "@types/semver": "^7.5.8",
+    "@types/validate-npm-package-name": "^4.0.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,29 @@
+import { defineBuildConfig } from 'unbuild';
+
+export default defineBuildConfig({
+entries: ['./src/index'],
+declaration: true,
+clean: true,
+rollup: {
+emitCJS: {{#eq moduleFormat 'dual'}}true{{else}}false{{/eq}},
+{{#eq framework 'react'}}
+esbuild: {
+jsx: 'transform',
+jsxFactory: 'React.createElement',
+jsxFragment: 'React.Fragment',
+},
+{{/eq}}
+},
+externals: [
+{{#eq framework 'react'}}
+'react',
+'react-dom',
+{{/eq}}
+{{#eq framework 'vue'}}
+'vue',
+{{/eq}}
+{{#eq framework 'svelte'}}
+'svelte',
+{{/eq}}
+],
+});

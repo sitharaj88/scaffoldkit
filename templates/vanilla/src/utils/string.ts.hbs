@@ -1,0 +1,91 @@
+/**
+* String utility functions
+*/
+
+/**
+* Capitalize the first letter of a string
+* @param str - Input string
+* @returns Capitalized string
+*
+* @example
+* ```ts
+* capitalize('hello'); // 'Hello'
+* ```
+*/
+export function capitalize(str: string): string {
+if (!str || str.length === 0) return str;
+return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+* Convert string to camelCase
+* @param str - Input string (kebab-case, snake_case, or space-separated)
+* @returns camelCase string
+*
+* @example
+* ```ts
+* camelCase('hello-world'); // 'helloWorld'
+* camelCase('hello_world'); // 'helloWorld'
+* ```
+*/
+export function camelCase(str: string): string {
+return str
+.toLowerCase()
+.replace(/[-_\s]+(.)?/g, (_, char) => (char ? char.toUpperCase() : ''));
+}
+
+/**
+* Convert string to kebab-case
+* @param str - Input string
+* @returns kebab-case string
+*
+* @example
+* ```ts
+* kebabCase('helloWorld'); // 'hello-world'
+* kebabCase('HelloWorld'); // 'hello-world'
+* ```
+*/
+export function kebabCase(str: string): string {
+return str
+.replace(/([a-z])([A-Z])/g, '$1-$2')
+.replace(/[\s_]+/g, '-')
+.toLowerCase();
+}
+
+/**
+* Convert string to snake_case
+* @param str - Input string
+* @returns snake_case string
+*
+* @example
+* ```ts
+* snakeCase('helloWorld'); // 'hello_world'
+* ```
+*/
+export function snakeCase(str: string): string {
+return str
+.replace(/([a-z])([A-Z])/g, '$1_$2')
+.replace(/[-\s]+/g, '_')
+.toLowerCase();
+}
+
+/**
+* Truncate a string to a maximum length
+* @param str - Input string
+* @param maxLength - Maximum length
+* @param suffix - Suffix to append if truncated (default: '...')
+* @returns Truncated string
+*
+* @example
+* ```ts
+* truncate('Hello, World!', 8); // 'Hello...'
+* ```
+*/
+export function truncate(str: string, maxLength: number, suffix = '...'): string {
+if (str.length <= maxLength) return str; return str.slice(0, maxLength - suffix.length) + suffix; } /** * Check if a
+    string is empty or contains only whitespace * @param str - Input string * @returns True if empty or whitespace only
+    */ export function isBlank(str: string | null | undefined): boolean { return !str || str.trim().length===0; } /** *
+    Generate a random string of specified length * @param length - Length of the string * @param chars - Characters to
+    use (default: alphanumeric) * @returns Random string */ export function randomString( length: number,
+    chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' ): string { let result='' ; for (let i=0; i <
+    length; i++) { result +=chars.charAt(Math.floor(Math.random() * chars.length)); } return result; }

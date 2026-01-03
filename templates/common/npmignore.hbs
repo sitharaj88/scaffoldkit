@@ -1,0 +1,55 @@
+# Source files
+src/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+vite.config.ts
+rollup.config.ts
+vitest.config.ts
+eslint.config.js
+.eslintrc*
+.prettierrc*
+
+# Development files
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__/
+__mocks__/
+coverage/
+
+# Documentation source
+docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# IDE
+.vscode/
+.idea/
+
+# Package manager files
+{{#eq packageManager "npm"}}
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+{{/eq}}
+{{#eq packageManager "yarn"}}
+package-lock.json
+pnpm-lock.yaml
+bun.lockb
+{{/eq}}
+{{#eq packageManager "pnpm"}}
+package-lock.json
+yarn.lock
+bun.lockb
+{{/eq}}
+{{#eq packageManager "bun"}}
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+{{/eq}}

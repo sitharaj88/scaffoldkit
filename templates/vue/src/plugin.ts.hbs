@@ -1,0 +1,20 @@
+import type { App } from 'vue';
+import Button from './components/Button/Button.vue';
+
+/**
+* Vue plugin for global component registration
+*
+* @example
+* ```ts
+* import { createApp } from 'vue';
+* import plugin from '{{name}}';
+*
+* const app = createApp(App);
+* app.use(plugin);
+* ```
+*/
+export default {
+install(app: App) {
+app.component('{{pascalCase (packageShortName name)}}Button', Button);
+},
+};

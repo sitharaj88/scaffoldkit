@@ -1,0 +1,42 @@
+<script lang="ts">
+    import { Button, createToggle } from '{{name}}';
+
+    let count = $state(0);
+    const toggle = createToggle(false);
+</script>
+
+<div class="app">
+    <h1>{{name}} Example</h1>
+    <p>This example demonstrates how to use the library components.</p>
+
+    <section>
+        <h2>Button Component</h2>
+        <Button onclick={()=> count++}>
+            Count: {count}
+        </Button>
+    </section>
+
+    <section>
+        <h2>Toggle Store</h2>
+        <p>Toggle state: <strong>{toggle.value ? 'ON' : 'OFF'}</strong></p>
+        <button onclick={()=> toggle.toggle()}>Toggle</button>
+    </section>
+</div>
+
+<style>
+    .app {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    section {
+        margin-top: 2rem;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+    }
+</style>

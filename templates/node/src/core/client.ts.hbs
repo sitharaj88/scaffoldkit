@@ -1,0 +1,52 @@
+/**
+* Client for {{name}}
+*/
+import type { ClientOptions, ClientConfig } from '../types.js';
+
+/**
+* Main client class
+*
+* @example
+* ```ts
+* const client = new Client({
+* apiKey: 'your-api-key',
+* });
+*
+* const result = await client.doSomething();
+* ```
+*/
+export class Client {
+private config: ClientConfig;
+
+constructor(options: ClientOptions) {
+this.config = {
+baseUrl: options.baseUrl || 'https://api.example.com',
+apiKey: options.apiKey,
+timeout: options.timeout || 30000,
+};
+}
+
+/**
+* Get the current configuration
+*/
+getConfig(): ClientConfig {
+return { ...this.config };
+}
+
+/**
+* Update the configuration
+*/
+setConfig(config: Partial<ClientConfig>): void {
+    this.config = { ...this.config, ...config };
+    }
+
+    /**
+    * Example method
+    */
+    async ping(): Promise<{ ok: boolean }> {
+        // Implement your API call here
+        return { ok: true };
+        }
+        }
+
+        export default Client;

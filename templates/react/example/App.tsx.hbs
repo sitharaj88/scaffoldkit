@@ -1,0 +1,31 @@
+import { useState } from 'react';
+import { Button, useToggle } from '{{name}}';
+
+function App() {
+const [count, setCount] = useState(0);
+const [isOn, toggle] = useToggle(false);
+
+return (
+<div style=\{{ fontFamily: 'system-ui, sans-serif' , maxWidth: '800px' , margin: '0 auto' , padding: '2rem' , }}>
+    <h1>{{name}} Example</h1>
+    <p>This example demonstrates how to use the library components.</p>
+
+    <section style=\{{ marginTop: '2rem' }}>
+        <h2>Button Component</h2>
+        <Button onClick={()=> setCount((c) => c + 1)}>
+            Count: {count}
+        </Button>
+    </section>
+
+    <section style=\{{ marginTop: '2rem' }}>
+        <h2>useToggle Hook</h2>
+        <p>Toggle state: <strong>{isOn ? 'ON' : 'OFF'}</strong></p>
+        <button onClick={toggle} style=\{{ padding: '0.5rem 1rem' , cursor: 'pointer' , }}>
+            Toggle
+        </button>
+    </section>
+</div>
+);
+}
+
+export default App;

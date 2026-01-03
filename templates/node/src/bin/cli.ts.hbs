@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+/**
+* {{name}} CLI
+* {{description}}
+*/
+import { Command } from 'commander';
+import { initCommand } from '../commands/init.js';
+
+const program = new Command();
+
+program
+.name('{{packageShortName name}}')
+.version('0.0.1')
+.description('{{description}}');
+
+program
+.command('init')
+.description('Initialize a new project')
+.option('-n, --name <name>', 'Project name')
+    .action(async (options) => {
+    await initCommand(options);
+    });
+
+    program.parse();

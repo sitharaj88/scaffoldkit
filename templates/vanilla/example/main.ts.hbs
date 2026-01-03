@@ -1,0 +1,28 @@
+import { capitalize, slugify, chunk, unique } from '{{name}}';
+
+// String utilities demo
+const stringDemo = document.getElementById('string-demo')!;
+const capitalizeResult = capitalize('hello world');
+const slugifyResult = slugify('Hello World Example');
+
+stringDemo.innerHTML = `
+<pre>
+capitalize('hello world') = '${capitalizeResult}'
+slugify('Hello World Example') = '${slugifyResult}'
+  </pre>
+`;
+
+// Array utilities demo
+const arrayDemo = document.getElementById('array-demo')!;
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const chunkResult = chunk(numbers, 3);
+const uniqueResult = unique([1, 2, 2, 3, 3, 3, 4]);
+
+arrayDemo.innerHTML = `
+<pre>
+chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3) = ${JSON.stringify(chunkResult)}
+unique([1, 2, 2, 3, 3, 3, 4]) = ${JSON.stringify(uniqueResult)}
+  </pre>
+`;
+
+console.log('{{name}} example loaded successfully!');

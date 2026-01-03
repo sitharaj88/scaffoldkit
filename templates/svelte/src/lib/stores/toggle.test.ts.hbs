@@ -1,0 +1,45 @@
+import { describe, it, expect } from 'vitest';
+import { get } from 'svelte/store';
+import { createToggle } from './toggle';
+
+describe('createToggle', () => {
+it('initializes with default value', () => {
+const toggle = createToggle();
+expect(get(toggle)).toBe(false);
+});
+
+it('initializes with custom value', () => {
+const toggle = createToggle(true);
+expect(get(toggle)).toBe(true);
+});
+
+it('toggles the value', () => {
+const toggle = createToggle(false);
+
+toggle.toggle();
+expect(get(toggle)).toBe(true);
+
+toggle.toggle();
+expect(get(toggle)).toBe(false);
+});
+
+it('sets specific value', () => {
+const toggle = createToggle(false);
+
+toggle.set(true);
+expect(get(toggle)).toBe(true);
+
+toggle.set(false);
+expect(get(toggle)).toBe(false);
+});
+
+it('resets to initial value', () => {
+const toggle = createToggle(true);
+
+toggle.set(false);
+expect(get(toggle)).toBe(false);
+
+toggle.reset();
+expect(get(toggle)).toBe(true);
+});
+});

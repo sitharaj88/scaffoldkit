@@ -1,0 +1,34 @@
+/**
+* Type definitions for {{name}}
+*/
+
+/**
+* Options for creating a new client
+*/
+export interface ClientOptions {
+/**
+* API key for authentication
+*/
+apiKey: string;
+
+/**
+* Base URL for API requests
+* @default 'https://api.example.com'
+*/
+baseUrl?: string;
+
+/**
+* Request timeout in milliseconds
+* @default 30000
+*/
+timeout?: number;
+}
+
+/**
+* Internal client configuration
+*/
+export interface ClientConfig {
+apiKey: string;
+baseUrl: string;
+timeout: number;
+}

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Build the CLI first
+echo "Building CLI..."
+cd ..
+npm run build
+
+# Run the CLI
+echo "Running {{name}}..."
+./dist/bin/cli.js --help
+
+echo "Done!"

@@ -1,0 +1,370 @@
+# {{name}}
+
+{{description}}
+
+{{#if (eq framework "react")}}
+[![React](https://img.shields.io/badge/React-18%2B-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
+{{/if}}
+{{#if (eq framework "vue")}}
+[![Vue](https://img.shields.io/badge/Vue-3-4FC08D?style=flat-square&logo=vue.js)](https://vuejs.org/)
+{{/if}}
+{{#if (eq framework "svelte")}}
+[![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?style=flat-square&logo=svelte)](https://svelte.dev/)
+{{/if}}
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-{{license}}-blue?style=flat-square)](./LICENSE)
+
+## ✨ Features
+
+{{#if (eq framework "react")}}
+- 🎨 **React Components** - Production-ready React components with TypeScript
+- 🪝 **Custom Hooks** - Reusable React hooks for common patterns
+- 📦 **Tree-shakable** - Only import what you need
+- 🎯 **TypeScript First** - Full type safety and excellent IDE support
+- ⚡ **Modern Build** - Optimized ESM output with {{buildSystem}}
+{{/if}}
+{{#if (eq framework "vue")}}
+- 🎨 **Vue 3 Components** - Production-ready components with Composition API
+- 🧩 **Composables** - Reusable composition functions
+- 📦 **Tree-shakable** - Only import what you need
+- 🎯 **TypeScript First** - Full type safety with `
+<script setup lang="ts">`
+- ⚡ **Modern Build** - Optimized ESM output with {{buildSystem}}
+{{/if}}
+{{#if (eq framework "svelte")}}
+- 🎨 **Svelte Components** - Production-ready Svelte 5 components with runes
+- 🗄️ **Stores** - Reactive Svelte stores for state management
+- 📦 **Tree-shakable** - Only import what you need
+- 🎯 **TypeScript First** - Full type safety and excellent IDE support
+- ⚡ **Modern Build** - Optimized ESM output with {{buildSystem}}
+{{/if}}
+{{#if (eq framework "vanilla")}}
+- 🛠️ **Utility Functions** - Production-ready utility functions
+- 📦 **Tree-shakable** - Only import what you need
+- 🎯 **TypeScript First** - Full type safety and excellent IDE support
+- ⚡ **Modern Build** - Optimized ESM output with {{buildSystem}}
+- 🌐 **Universal** - Works in browser, Node.js, and edge runtimes
+{{/if}}
+{{#if (eq framework "node")}}
+- 🖥️ **Node.js Native** - Built specifically for Node.js environments
+- 📦 **Tree-shakable** - Only import what you need
+- 🎯 **TypeScript First** - Full type safety and excellent IDE support
+- ⚡ **Modern Build** - Optimized ESM output with {{buildSystem}}
+{{/if}}
+
+## 📦 Installation
+
+```bash
+npm install {{name}}
+# or
+yarn add {{name}}
+# or
+pnpm add {{name}}
+```
+
+{{#if (eq framework "react")}}
+> **Note:** This package requires React 18+ as a peer dependency.
+{{/if}}
+{{#if (eq framework "vue")}}
+> **Note:** This package requires Vue 3 as a peer dependency.
+{{/if}}
+{{#if (eq framework "svelte")}}
+> **Note:** This package requires Svelte 5 as a peer dependency.
+{{/if}}
+
+## 🚀 Quick Start
+
+{{#if (eq framework "react")}}
+```tsx
+import { Button, useToggle } from '{{name}}';
+
+function App() {
+  const [isOpen, toggle] = useToggle(false);
+
+  return (
+<div>
+<Button onClick={toggle} variant="primary">
+{isOpen ? 'Close' : 'Open'}
+</Button>
+</div>
+);
+}
+```
+{{/if}}
+{{#if (eq framework "vue")}}
+```vue
+<script setup lang = "ts" >
+import { Button, useToggle } from '{{name}}';
+
+const { value: isOpen, toggle } = useToggle(false);
+</script>
+
+<template>
+<Button @click="toggle" variant="primary">
+\{{ isOpen ? 'Close' : 'Open' }}
+</Button>
+</template>
+```
+{{/if}}
+{{#if (eq framework "svelte")}}
+```svelte
+<script lang="ts">
+import { Button, createToggle } from '{{name}}';
+
+const toggle = createToggle(false);
+</script>
+
+<Button onclick={toggle.toggle} variant="primary">
+    {$toggle ? 'Close' : 'Open'}
+</Button>
+```
+{{/if}}
+{{#if (eq framework "vanilla")}}
+```typescript
+import { capitalize, chunk, unique } from '{{name}}';
+
+// String utilities
+const title = capitalize('hello world'); // 'Hello world'
+
+// Array utilities
+const chunks = chunk([1, 2, 3, 4, 5], 2); // [[1, 2], [3, 4], [5]]
+const uniqueItems = unique([1, 1, 2, 2, 3]); // [1, 2, 3]
+```
+{{/if}}
+{{#if (eq framework "node")}}
+```typescript
+import { Client } from '{{name}}';
+
+const client = new Client({
+apiKey: process.env.API_KEY,
+});
+
+const response = await client.ping();
+console.log(response); // { ok: true }
+```
+{{/if}}
+
+## 📖 API Reference
+
+{{#if (eq framework "react")}}
+### Components
+
+#### `<Button>`
+
+A customizable button component with variants and sizes.
+
+```tsx
+<Button variant="primary" size="medium" loading={false}>
+Click me
+</Button>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'outline'` | `'primary'` | Button style variant |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Button size |
+| `loading` | `boolean` | `false` | Show loading state |
+| `disabled` | `boolean` | `false` | Disable the button |
+
+### Hooks
+
+#### `useToggle(initialValue?)`
+
+A simple toggle hook for boolean state.
+
+```tsx
+const [value, toggle, setValue] = useToggle(false);
+```
+
+| Return | Type | Description |
+|--------|------|-------------|
+| `value` | `boolean` | Current toggle state |
+| `toggle` | `() => void` | Function to toggle the value |
+| `setValue` | `(value: boolean) => void` | Function to set specific value |
+{{/if}}
+{{#if (eq framework "vue")}}
+### Components
+
+#### `<Button>`
+
+A customizable button component with variants and sizes.
+
+```vue
+<Button variant="primary" size="medium" :loading="false" @click="handleClick">
+Click me
+</Button>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'outline'` | `'primary'` | Button style variant |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Button size |
+| `loading` | `boolean` | `false` | Show loading state |
+| `disabled` | `boolean` | `false` | Disable the button |
+
+  ### Composables
+
+  #### `useToggle(initialValue?)`
+
+  A simple toggle composable for boolean state.
+
+```ts
+  const { value, toggle, set } = useToggle(false);
+```
+
+  | Return | Type | Description |
+  |--------|------|-------------|
+  | `value` | `Ref<boolean>` | Reactive toggle state |
+  | `toggle` | `() => void` | Function to toggle the value |
+  | `set` | `(value: boolean) => void` | Function to set specific value |
+  {{/if}}
+  {{#if (eq framework "svelte")}}
+  ### Components
+
+  #### `<Button>`
+
+A customizable button component with variants and sizes.
+
+```svelte
+<Button variant="primary" size="medium" loading={false} onclick={handleClick}>
+Click me
+</Button>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'outline'` | `'primary'` | Button style variant |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Button size |
+| `loading` | `boolean` | `false` | Show loading state |
+| `disabled` | `boolean` | `false` | Disable the button |
+
+### Stores
+
+#### `createToggle(initialValue?)`
+
+Creates a toggle store for boolean state.
+
+```ts
+const toggle = createToggle(false);
+
+toggle.subscribe(value => console.log(value));
+toggle.toggle();
+toggle.set(true);
+toggle.reset();
+```
+{{/if}}
+{{#if (eq framework "vanilla")}}
+### String Utilities
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| `capitalize(str)` | Capitalize first letter | `capitalize('hello')` → `'Hello'` |
+| `camelCase(str)` | Convert to camelCase | `camelCase('foo-bar')` → `'fooBar'` |
+| `kebabCase(str)` | Convert to kebab-case | `kebabCase('fooBar')` → `'foo-bar'` |
+| `truncate(str, len)` | Truncate with ellipsis | `truncate('hello world', 8)` → `'hello...'` |
+
+### Array Utilities
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| `unique(arr)` | Get unique values | `unique([1,1,2])` → `[1,2]` |
+| `chunk(arr, size)` | Split into chunks | `chunk([1,2,3,4], 2)` → `[[1,2],[3,4]]` |
+| `flatten(arr)` | Flatten nested arrays | `flatten([[1],[2,[3]]])` → `[1,2,3]` |
+| `shuffle(arr)` | Randomly shuffle | `shuffle([1,2,3])` → `[3,1,2]` |
+{{/if}}
+{{#if (eq framework "node")}}
+### `Client`
+
+Main client class for API interactions.
+
+```typescript
+const client = new Client({
+apiKey: 'your-api-key',
+baseUrl: 'https://api.example.com',
+timeout: 30000,
+});
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `apiKey` | `string` | required | API key for authentication |
+| `baseUrl` | `string` | `'https://api.example.com'` | Base URL for requests |
+| `timeout` | `number` | `30000` | Request timeout in ms |
+
+#### Methods
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `ping()` | `Promise<{ ok: boolean }>` | Test connection |
+| `getConfig()` | `ClientConfig` | Get current configuration |
+{{/if}}
+
+## 🛠️ Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development mode
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+
+# Type check
+npm run typecheck
+```
+
+## 📁 Project Structure
+
+```
+{{name}}/
+├── src/
+{{#if (eq framework "react")}}
+│ ├── components/ # React components
+│ ├── hooks/ # Custom React hooks
+{{/if}}
+{{#if (eq framework "vue")}}
+│ ├── components/ # Vue components
+│ ├── composables/ # Vue composables
+{{/if}}
+{{#if (eq framework "svelte")}}
+│ └── lib/
+│ ├── components/ # Svelte components
+│ ├── stores/ # Svelte stores
+{{/if}}
+{{#if (eq framework "vanilla")}}
+│ ├── utils/ # Utility functions
+{{/if}}
+{{#if (eq framework "node")}}
+│ ├── core/ # Core functionality
+{{/if}}
+│ └── index.ts # Main entry point
+├── dist/ # Built output
+├── package.json
+└── tsconfig.json
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the {{license}} License - see the [LICENSE](./LICENSE) file for
+details.
+
+---
+
+<p align="center">
+    Made with ❤️ using <a href="https://github.com/aspect/scaffold">Scaffold CLI</a>
+</p>
