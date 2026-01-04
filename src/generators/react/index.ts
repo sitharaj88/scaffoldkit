@@ -47,6 +47,9 @@ export class ReactGenerator extends BaseGenerator {
         deps.push(this.devDep('globals', '^15.0.0'));
         deps.push(this.devDep('typescript-eslint', '^8.18.0'));
 
+        // Vite plugin for testing
+        deps.push(this.devDep('@vitejs/plugin-react', '^4.3.0'));
+
         return deps;
     }
 
@@ -103,6 +106,12 @@ export class ReactGenerator extends BaseGenerator {
             isTemplate: true,
         });
 
+        files.push({
+            path: 'vitest.setup.ts',
+            template: 'common/vitest.setup.ts.hbs',
+            isTemplate: true,
+        });
+
         // Example app files (conditionally included)
         if (config.includeExample) {
             files.push({
@@ -154,6 +163,7 @@ export class ReactGenerator extends BaseGenerator {
         if (config.includeExample) {
             scripts['example:install'] = 'cd example && npm install';
             scripts['example:dev'] = 'cd example && npm run dev';
+            scripts['example:prod'] = 'npm run build && cd example && npm run dev:prod';
         }
 
         return {

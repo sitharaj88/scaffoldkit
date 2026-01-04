@@ -19,6 +19,9 @@ environment: 'jsdom',
 {{#eq runtimeTarget "node"}}
 environment: 'node',
 {{/eq}}
+{{#or (eq framework "vue") (eq framework "react") (eq framework "svelte")}}
+setupFiles: ['./vitest.setup.ts'],
+{{/or}}
 include: ['src/**/*.{test,spec}.{ts,tsx}'],
 coverage: {
 provider: 'v8',

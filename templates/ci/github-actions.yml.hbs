@@ -1,0 +1,74 @@
+name: CI
+
+on:
+push:
+branches: [main, master]
+pull_request:
+branches: [main, master]
+
+jobs:
+build:
+runs-on: ubuntu-latest
+
+strategy:
+matrix:
+node-version: [18, 20, 22]
+
+steps:
+- name: Checkout repository
+uses: actions/checkout@v4
+
+- name: Setup Node.js $\{{ matrix.node-version }}
+uses: actions/setup-node@v4
+with:
+node-version: $\{{ matrix.node-version }}
+cache: '{{packageManager}}'
+
+- name: Install dependencies
+run: {{packageManager}} {{#eq packageManager "npm"}}ci{{else}}install --frozen-lockfile{{/eq}}
+
+- name: Build
+run: {{packageManager}} run build
+
+- name: Run tests
+run: {{packageManager}} test
+
+- name: Type check
+run: {{packageManager}} run typecheck
+
+{{#if includeSemanticRelease}}
+release:
+needs: build
+runs-on: ubuntu-latest
+if: github.ref == 'refs/heads/main'
+
+permissions:
+contents: write
+issues: write
+pull-requests: write
+id-token: write
+
+steps:
+- name: Checkout repository
+uses: actions/checkout@v4
+with:
+fetch-depth: 0
+
+- name: Setup Node.js
+uses: actions/setup-node@v4
+with:
+node-version: 20
+cache: '{{packageManager}}'
+
+- name: Install dependencies
+run: {{packageManager}} {{#eq packageManager "npm"}}ci{{else}}install --frozen-lockfile{{/eq}}
+
+- name: Build
+run: {{packageManager}} run build
+
+- name: Release
+env:
+GITHUB_TOKEN: $\{{ secrets.GITHUB_TOKEN }}
+NPM_TOKEN: $\{{ secrets.NPM_TOKEN }}
+run: npx semantic-release
+{{/if}}

@@ -6,14 +6,18 @@ import path from 'path';
 import chalk from 'chalk';
 import { validatePackage } from '../core/validator.js';
 import { logger } from '../core/logger.js';
+import { calculateQualityScore } from '../core/quality/index.js';
+import { analyzeBundleSize, formatBytes } from '../core/analyzer/index.js';
 import type { CheckCategory, ValidationSeverity } from '../types/index.js';
 
 /**
  * Check command options
  */
-interface CheckOptions {
+export interface CheckOptions {
     categories?: CheckCategory[];
     fix?: boolean;
+    score?: boolean;
+    sizeLimit?: string;
 }
 
 /**
@@ -26,7 +30,19 @@ export async function checkCommand(packagePath?: string, options: CheckOptions =
     logger.keyValue('Path', targetPath);
     logger.blank();
 
-    // Run validation
+    // If score flag is set, show quality score
+    if (options.score) {
+        await showQualityScore(targetPath);
+        logger.blank();
+    }
+
+    // If size-limit is set, analyze bundle size
+    if (options.sizeLimit) {
+        await showBundleSize(targetPath, options.sizeLimit);
+        logger.blank();
+    }
+
+    // Run standard validation
     const results = await validatePackage(targetPath);
 
     // Filter by categories if specified
@@ -106,6 +122,98 @@ export async function checkCommand(packagePath?: string, options: CheckOptions =
     } else {
         logger.success('Package validation passed! Ready to publish.');
     }
+}
+
+/**
+ * Show quality score
+ */
+async function showQualityScore(targetPath: string): Promise<void> {
+    console.log(chalk.bold('📊 Quality Score'));
+    console.log();
+
+    const score = await calculateQualityScore(targetPath);
+
+    // Display grade with color
+    const gradeColor = score.grade.startsWith('A') ? 'green' :
+        score.grade.startsWith('B') ? 'cyan' :
+            score.grade.startsWith('C') ? 'yellow' :
+                'red';
+
+    console.log(`  ${chalk.bold('Grade:')} ${chalk[gradeColor](score.grade)} (${score.total}/100)`);
+    console.log();
+
+    // Display category breakdown
+    console.log(`  ${chalk.dim('Categories:')}`);
+    console.log(`    Types:   ${getScoreBar(score.categories.types, 20)} ${score.categories.types}/20`);
+    console.log(`    Exports: ${getScoreBar(score.categories.exports, 20)} ${score.categories.exports}/20`);
+    console.log(`    Size:    ${getScoreBar(score.categories.size, 20)} ${score.categories.size}/20`);
+    console.log(`    Docs:    ${getScoreBar(score.categories.docs, 20)} ${score.categories.docs}/20`);
+    console.log(`    Tests:   ${getScoreBar(score.categories.tests, 20)} ${score.categories.tests}/20`);
+
+    // Display suggestions if any
+    if (score.suggestions.length > 0) {
+        console.log();
+        console.log(`  ${chalk.dim('Suggestions:')}`);
+        for (const suggestion of score.suggestions.slice(0, 5)) {
+            console.log(`    ${chalk.yellow('→')} ${suggestion}`);
+        }
+        if (score.suggestions.length > 5) {
+            console.log(`    ${chalk.dim(`... and ${score.suggestions.length - 5} more`)}`);
+        }
+    }
+}
+
+/**
+ * Show bundle size analysis
+ */
+async function showBundleSize(targetPath: string, sizeLimit: string): Promise<void> {
+    console.log(chalk.bold('📦 Bundle Size Analysis'));
+    console.log();
+
+    const analysis = await analyzeBundleSize(targetPath, { sizeLimit });
+
+    // Show totals
+    const sizeColor = analysis.passesLimit ? 'green' : 'red';
+    console.log(`  Total Size: ${chalk[sizeColor](formatBytes(analysis.totalSize))}`);
+    console.log(`  Gzipped:    ${chalk.cyan(formatBytes(analysis.totalGzipSize))}`);
+
+    if (analysis.sizeLimit) {
+        const status = analysis.passesLimit ? chalk.green('✔ PASS') : chalk.red('✖ FAIL');
+        console.log(`  Limit:      ${formatBytes(analysis.sizeLimit)} ${status}`);
+    }
+
+    // Show top 5 largest files
+    if (analysis.files.length > 0) {
+        console.log();
+        console.log(`  ${chalk.dim('Largest files:')}`);
+        for (const file of analysis.files.slice(0, 5)) {
+            console.log(`    ${formatBytes(file.size).padEnd(10)} ${file.path}`);
+        }
+    }
+
+    // Show suggestions
+    if (analysis.suggestions.length > 0) {
+        console.log();
+        console.log(`  ${chalk.dim('Suggestions:')}`);
+        for (const suggestion of analysis.suggestions.slice(0, 3)) {
+            const icon = suggestion.severity === 'error' ? chalk.red('✖') :
+                suggestion.severity === 'warning' ? chalk.yellow('⚠') :
+                    chalk.blue('ℹ');
+            console.log(`    ${icon} ${suggestion.message}`);
+        }
+    }
+}
+
+/**
+ * Generate a visual score bar
+ */
+function getScoreBar(score: number, max: number): string {
+    const filled = Math.round((score / max) * 10);
+    const empty = 10 - filled;
+    const color = score >= max * 0.8 ? 'green' :
+        score >= max * 0.6 ? 'yellow' :
+            'red';
+    return chalk[color]('█'.repeat(filled) + '░'.repeat(empty));
 }
 
 /**

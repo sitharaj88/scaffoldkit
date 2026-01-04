@@ -36,6 +36,7 @@ export class VueGenerator extends BaseGenerator {
         // Testing
         deps.push(this.devDep('@vue/test-utils', '^2.4.0'));
         deps.push(this.devDep('@testing-library/vue', '^8.1.0'));
+        deps.push(this.devDep('@testing-library/jest-dom', '^6.6.0'));
         deps.push(this.devDep('jsdom', '^25.0.0'));
         deps.push(this.devDep('happy-dom', '^15.11.0'));
 
@@ -115,6 +116,12 @@ export class VueGenerator extends BaseGenerator {
             isTemplate: true,
         });
 
+        files.push({
+            path: 'vitest.setup.ts',
+            template: 'common/vitest.setup.ts.hbs',
+            isTemplate: true,
+        });
+
         // Example app files (conditionally included)
         if (config.includeExample) {
             files.push({
@@ -167,6 +174,7 @@ export class VueGenerator extends BaseGenerator {
         if (config.includeExample) {
             scripts['example:install'] = 'cd example && npm install';
             scripts['example:dev'] = 'cd example && npm run dev';
+            scripts['example:prod'] = 'npm run build && cd example && npm run dev:prod';
         }
 
         return {

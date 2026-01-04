@@ -1,0 +1,27 @@
+stages:
+- build
+- test
+{{#if includeSemanticRelease}}
+- release
+{{/if}}
+
+variables:
+NODE_VERSION: "20"
+
+.node-cache: &node-cache
+cache:
+key: $CI_COMMIT_REF_SLUG
+paths:
+- node_modules/
+
+build:
+stage: build
+image: node:$NODE_VERSION
+<<: *node-cache script: - {{packageManager}} {{#eq packageManager "npm" }}ci{{else}}install --frozen-lockfile{{/eq}} -
+    {{packageManager}} run build artifacts: paths: - dist/ expire_in: 1 day test: stage: test image: node:$NODE_VERSION
+    <<: *node-cache script: - {{packageManager}} {{#eq packageManager "npm" }}ci{{else}}install --frozen-lockfile{{/eq}}
+    - {{packageManager}} test coverage: '/All files\s*\|\s*([\d.]+)/' typecheck: stage: test image: node:$NODE_VERSION
+    <<: *node-cache script: - {{packageManager}} {{#eq packageManager "npm" }}ci{{else}}install --frozen-lockfile{{/eq}}
+    - {{packageManager}} run typecheck {{#if includeSemanticRelease}} release: stage: release image: node:$NODE_VERSION
+    <<: *node-cache script: - {{packageManager}} {{#eq packageManager "npm" }}ci{{else}}install --frozen-lockfile{{/eq}}
+    - {{packageManager}} run build - npx semantic-release only: - main {{/if}}

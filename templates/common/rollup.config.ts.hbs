@@ -1,8 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
-{{#eq framework 'react'}}
-import react from '@vitejs/plugin-react';
-{{/eq}}
 {{#eq framework 'vue'}}
 import vue from '@vitejs/plugin-vue';
 {{/eq}}
@@ -34,9 +31,6 @@ tsconfig: './tsconfig.json',
 declaration: true,
 declarationDir: 'dist',
 }),
-{{#eq framework 'react'}}
-react(),
-{{/eq}}
 {{#eq framework 'vue'}}
 vue(),
 {{/eq}}
@@ -48,14 +42,14 @@ preprocess: sveltePreprocess(),
 ],
 external: [
 {{#eq framework 'react'}}
-'react',
-'react-dom',
+/^react($|\/)/,
+/^react-dom($|\/)/,
 {{/eq}}
 {{#eq framework 'vue'}}
-'vue',
+/^vue($|\/)/,
 {{/eq}}
 {{#eq framework 'svelte'}}
-'svelte',
+/^svelte($|\/)/,
 {{/eq}}
 ],
 };
