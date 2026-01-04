@@ -13,9 +13,64 @@ import type {
     DependencySpec,
     Framework,
 } from '../types/index.js';
+import prettier from 'prettier';
 import { registry } from './registry.js';
 import { templateEngine } from './template-engine.js';
 import { logger } from './logger.js';
+
+/**
+ * Format content string using Prettier
+ */
+async function formatContent(content: string, filepath: string): Promise<string> {
+    try {
+        const ext = path.extname(filepath);
+        let parser = 'babel';
+
+        switch (ext) {
+            case '.ts':
+            case '.tsx':
+                parser = 'typescript';
+                break;
+            case '.js':
+            case '.jsx':
+            case '.mjs':
+            case '.cjs':
+                parser = 'babel';
+                break;
+            case '.json':
+                parser = 'json';
+                break;
+            case '.md':
+                parser = 'markdown';
+                break;
+            case '.html':
+                parser = 'html';
+                break;
+            case '.css':
+            case '.scss':
+                parser = 'css';
+                break;
+            case '.yaml':
+            case '.yml':
+                parser = 'yaml';
+                break;
+            default:
+                return content;
+        }
+
+        return await prettier.format(content, {
+            parser,
+            semi: true,
+            singleQuote: true,
+            trailingComma: 'es5',
+            tabWidth: 2,
+            printWidth: 100,
+        });
+    } catch (error) {
+        logger.warn(`Failed to format ${filepath}: ${error instanceof Error ? error.message : String(error)}`);
+        return content;
+    }
+}
 
 /**
  * Generate a package using the appropriate generator
@@ -127,7 +182,9 @@ export async function generatePackage(
                 content = file.template;
             }
 
-            await fs.writeFile(filePath, content!, 'utf-8');
+            // Format content with Prettier
+            const formattedContent = await formatContent(content!, filePath);
+            await fs.writeFile(filePath, formattedContent, 'utf-8');
             files.push(file.path);
             logger.debug(`Generated: ${file.path}`);
         }
@@ -182,7 +239,7 @@ function buildTemplateContext(
         ...config,
         year: new Date().getFullYear(),
         date: new Date().toISOString().split('T')[0],
-        cliVersion: '1.0.0', // TODO: Get from package.json
+        cliVersion: '1.0.0-alpha.1', // TODO: Get from package.json
         dependencies: groupDependencies(deps, 'dependency'),
         devDependencies: groupDependencies(deps, 'devDependency'),
         peerDependencies: groupDependencies(deps, 'peerDependency'),

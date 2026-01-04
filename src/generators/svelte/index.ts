@@ -31,13 +31,17 @@ export class SvelteGenerator extends BaseGenerator {
 
         // Svelte build tools
         deps.push(this.devDep('@sveltejs/package', '^2.3.0'));
-        deps.push(this.devDep('@sveltejs/vite-plugin-svelte', '^4.0.0'));
+        deps.push(this.devDep('@sveltejs/vite-plugin-svelte', '^5.0.0'));
         deps.push(this.devDep('svelte', '^5.0.0')); // Needed for dev
         deps.push(this.devDep('svelte-check', '^4.1.0'));
 
         // Testing
         deps.push(this.devDep('@testing-library/svelte', '^5.2.0'));
+        deps.push(this.devDep('@testing-library/jest-dom', '^6.6.0'));
         deps.push(this.devDep('jsdom', '^25.0.0'));
+
+        // Build Tools
+        deps.push(this.devDep('rollup-plugin-svelte', '^7.2.0'));
 
         // ESLint for Svelte
         deps.push(this.devDep('eslint', '^9.17.0'));
@@ -110,6 +114,12 @@ export class SvelteGenerator extends BaseGenerator {
             isTemplate: true,
         });
 
+        files.push({
+            path: 'vitest.setup.ts',
+            template: 'common/vitest.setup.ts.hbs',
+            isTemplate: true,
+        });
+
         // Example app files (conditionally included)
         if (config.includeExample) {
             files.push({
@@ -169,6 +179,7 @@ export class SvelteGenerator extends BaseGenerator {
         if (config.includeExample) {
             scripts['example:install'] = 'cd example && npm install';
             scripts['example:dev'] = 'cd example && npm run dev';
+            scripts['example:prod'] = 'npm run build && cd example && npm run dev:prod';
         }
 
         return {

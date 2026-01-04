@@ -2,11 +2,13 @@ import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import path from 'path';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
 plugins: [svelte()],
 resolve: {
-alias: {
-'{{name}}': path.resolve(__dirname, '../src/lib'),
-},
+alias: isProduction
+? {} // Use installed package from dist
+: { '{{name}}': path.resolve(__dirname, '../src/lib') }, // Use source for dev
 },
 });

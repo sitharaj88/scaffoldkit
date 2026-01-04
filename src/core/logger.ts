@@ -2,6 +2,8 @@
  * Structured colored logging with consistent formatting
  */
 import chalk from 'chalk';
+import gradient from 'gradient-string';
+import boxen from 'boxen';
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -82,7 +84,7 @@ class Logger {
     header(title: string) {
         this.blank();
         if (this.config.colors) {
-            console.log(chalk.bold.cyan(`◆ ${title}`));
+            console.log(gradient.morning(`\n◆ ${title}\n`));
         } else {
             console.log(`=== ${title} ===`);
         }
@@ -128,17 +130,30 @@ class Logger {
      * Print a box around content
      */
     box(title: string, content: string[]) {
-        const maxLength = Math.max(title.length, ...content.map((c) => c.length));
-        const border = '─'.repeat(maxLength + 4);
+        if (this.config.colors) {
+            console.log(
+                boxen(content.join('\n'), {
+                    title: title,
+                    titleAlignment: 'center',
+                    padding: 1,
+                    margin: 1,
+                    borderStyle: 'round',
+                    borderColor: 'blue',
+                })
+            );
+        } else {
+            const maxLength = Math.max(title.length, ...content.map((c) => c.length));
+            const border = '─'.repeat(maxLength + 4);
 
-        this.blank();
-        console.log(chalk.dim(`┌${border}┐`));
-        console.log(chalk.dim('│') + ' ' + chalk.bold.white(title.padEnd(maxLength + 2)) + ' ' + chalk.dim('│'));
-        console.log(chalk.dim(`├${border}┤`));
-        content.forEach((line) => {
-            console.log(chalk.dim('│') + ' ' + line.padEnd(maxLength + 2) + ' ' + chalk.dim('│'));
-        });
-        console.log(chalk.dim(`└${border}┘`));
+            this.blank();
+            console.log(`┌${border}┐`);
+            console.log('│ ' + title.padEnd(maxLength + 2) + ' │');
+            console.log(`├${border}┤`);
+            content.forEach((line) => {
+                console.log('│ ' + line.padEnd(maxLength + 2) + ' │');
+            });
+            console.log(`└${border}┘`);
+        }
     }
 
     /**

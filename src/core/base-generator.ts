@@ -77,7 +77,8 @@ export abstract class BaseGenerator implements Generator {
                 deps.push(
                     { name: 'rollup', version: '^4.28.0', type: 'devDependency' },
                     { name: '@rollup/plugin-typescript', version: '^12.1.0', type: 'devDependency' },
-                    { name: '@rollup/plugin-node-resolve', version: '^16.0.0', type: 'devDependency' }
+                    { name: '@rollup/plugin-node-resolve', version: '^16.0.0', type: 'devDependency' },
+                    { name: 'tslib', version: '^2.8.0', type: 'devDependency' }
                 );
                 break;
             case 'unbuild':
@@ -163,6 +164,29 @@ export abstract class BaseGenerator implements Generator {
 
         // Vitest config
         files.push({ path: 'vitest.config.ts', template: 'common/vitest.config.ts.hbs', isTemplate: true });
+
+        // CI Templates
+        if (config.ciProvider === 'github-actions') {
+            files.push({ path: '.github/workflows/ci.yml', template: 'ci/github-actions.yml.hbs', isTemplate: true });
+        } else if (config.ciProvider === 'gitlab-ci') {
+            files.push({ path: '.gitlab-ci.yml', template: 'ci/gitlab-ci.yml.hbs', isTemplate: true });
+        }
+
+        // Commitlint config
+        if (config.includeCommitlint) {
+            files.push({ path: 'commitlint.config.js', template: 'common/commitlint.config.js.hbs', isTemplate: true });
+        }
+
+        // Changesets config
+        if (config.includeChangesets) {
+            files.push({ path: '.changeset/config.json', template: 'common/changeset-config.json.hbs', isTemplate: true });
+        }
+
+        // Husky hooks
+        if (config.includeHusky) {
+            files.push({ path: '.husky/commit-msg', template: 'common/husky-commit-msg.hbs', isTemplate: true });
+            files.push({ path: '.husky/pre-commit', template: 'common/husky-pre-commit.hbs', isTemplate: true });
+        }
 
         return files;
     }

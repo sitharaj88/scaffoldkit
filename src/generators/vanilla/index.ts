@@ -35,6 +35,9 @@ export class VanillaGenerator extends BaseGenerator {
         // Prettier
         deps.push(this.devDep('prettier', '^3.4.0'));
 
+        // Testing environment
+        deps.push(this.devDep('jsdom', '^25.0.0'));
+
         return deps;
     }
 
@@ -144,6 +147,7 @@ export class VanillaGenerator extends BaseGenerator {
         if (config.includeExample) {
             scripts['example:install'] = 'cd example && npm install';
             scripts['example:dev'] = 'cd example && npm run dev';
+            scripts['example:prod'] = 'npm run build && cd example && npm run dev:prod';
         }
 
         const extras: Record<string, unknown> = {

@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import path from 'path';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
 resolve: {
-alias: {
-'{{name}}': path.resolve(__dirname, '../src'),
-},
+alias: isProduction
+? {} // Use installed package from dist
+: { '{{name}}': path.resolve(__dirname, '../src') }, // Use source for dev
 },
 });

@@ -174,6 +174,32 @@ export interface GeneratorConfig {
 
     /** Whether to include an example application */
     includeExample?: boolean;
+
+    // === Extended options from presets ===
+
+    /** CI provider to use */
+    ciProvider?: 'github-actions' | 'gitlab-ci' | 'none';
+
+    /** Include Husky git hooks */
+    includeHusky?: boolean;
+
+    /** Include commitlint for conventional commits */
+    includeCommitlint?: boolean;
+
+    /** Include semantic-release for automated releases */
+    includeSemanticRelease?: boolean;
+
+    /** Include Changesets for versioning */
+    includeChangesets?: boolean;
+
+    /** Include Storybook (for component libraries) */
+    includeStorybook?: boolean;
+
+    /** Additional dev dependencies from preset */
+    additionalDevDeps?: Record<string, string>;
+
+    /** Additional scripts from preset */
+    additionalScripts?: Record<string, string>;
 }
 
 /**

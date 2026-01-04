@@ -1,211 +1,232 @@
-# Scaffold CLI
+# Scaffold-Kit
 
-**Production-grade CLI for creating, validating, and publishing JavaScript/TypeScript packages across all modern frameworks.**
+<p align="center">
+  <img src="https://img.shields.io/npm/v/@sitharaj08/scaffold-kit?color=blue&label=npm" alt="npm version" />
+  <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen" alt="node version" />
+  <img src="https://img.shields.io/npm/l/@sitharaj08/scaffold-kit" alt="license" />
+  <img src="https://img.shields.io/github/stars/sitharaj88/scaffoldkit?style=social" alt="stars" />
+</p>
+
+<p align="center">
+  <strong>Production-grade CLI for creating, validating, and publishing JavaScript/TypeScript packages across all modern frameworks.</strong>
+</p>
 
 ```
-   ___           __  __      _    _ 
-  / __| __ __ _ / _|/ _|___ | |__| |
-  \__ \/ _/ _` |  _|  _/ _ \| / _` |
-  |___/\__\__,_|_| |_| \___/|_\__,_|
+   _____            __  __      _    _  ___ __ 
+  / ____|          / _|/ _|    | |  | |/ (_)  |
+ | (___   ___ __ _| |_| |_ ___ | | __| |/ /| |_ 
+  \___ \ / __/ _` |  _|  _/ _ \| |/ _` |   < | __|
+  ____) | (_| (_| | | | || (_) | | (_| | . \| |_ 
+ |_____/ \___\\__,_|_| |_| \___/|_|\__,_|_|\_\\__|
 ```
 
-## Overview
+---
 
-Scaffold is a universal CLI designed to help developers create production-ready JavaScript and TypeScript libraries for any modern framework. It features:
+## ✨ Features
 
-- 🎯 **Framework-agnostic core** with pluggable generators
-- 🚀 **Production-ready templates** with modern best practices
-- ✅ **Package validation** against npm standards
-- 📦 **Safe publishing workflow** with semantic versioning
+- 🎯 **Framework-Agnostic** — Support for React, Vue, Svelte, Node.js, and vanilla TypeScript
+- 🚀 **Production-Ready Templates** — Modern best practices out of the box
+- ✅ **Package Validation** — Validate against npm standards with quality scoring
+- 📦 **Safe Publishing** — 8 pre-flight checks before publishing
+- 🔄 **Migration Assistant** — Modernize legacy projects automatically
+- 📚 **Docs Generator** — Auto-generate API documentation from TypeScript
 
-## Installation
+---
+
+## 📦 Installation
 
 ```bash
-npm install -g @aspect/scaffold
-# or
-npx @aspect/scaffold create my-lib
+# Using npx (recommended)
+npx @sitharaj08/scaffold-kit create my-lib
+
+# Global installation
+npm install -g @sitharaj08/scaffold-kit
+
+# Or with other package managers
+pnpm add -g @sitharaj08/scaffold-kit
+yarn global add @sitharaj08/scaffold-kit
 ```
 
-## Commands
+---
 
-### `scaffold create [name]`
-
-Interactive wizard for creating new packages:
+## 🚀 Quick Start
 
 ```bash
-scaffold create my-awesome-lib
+# Create a new library
+npx @sitharaj08/scaffold-kit create my-awesome-lib
+
+# The interactive wizard guides you through:
+# ✓ Framework selection (React, Vue, Svelte, TypeScript, Node.js)
+# ✓ Package type (library, plugin, utility, CLI, SDK)
+# ✓ Build system (tsup, Vite, Rollup, unbuild)
+# ✓ Module format (ESM, CJS, dual)
+# ✓ CI/CD setup (GitHub Actions, GitLab CI)
 ```
 
-The wizard guides you through:
+---
+
+## 📖 Commands
+
+| Command | Description |
+|---------|-------------|
+| `scaffold-kit create [name]` | Create a new package with interactive wizard |
+| `scaffold-kit check [path]` | Validate package against npm best practices |
+| `scaffold-kit publish` | Publish with pre-flight checks |
+| `scaffold-kit add [type] [name]` | Add component, hook, or utility |
+| `scaffold-kit migrate` | Migrate build system or module format |
+| `scaffold-kit docs` | Generate API documentation |
+| `scaffold-kit release` | Version bumping and changelog |
+| `scaffold-kit info` | Display CLI information |
+
+### `scaffold-kit create`
+
+```bash
+scaffold-kit create my-lib
+```
+
+Interactive wizard for:
 - Framework selection (React, Vue, Svelte, TypeScript, Node.js)
 - Package type (library, plugin, utility, CLI, SDK)
-- Package manager (npm, pnpm, yarn, bun)
 - Build system (tsup, Vite, Rollup, unbuild, esbuild)
-- Runtime target (browser, Node.js, universal, edge)
 - Module format (ESM, CJS, dual)
-- License and metadata
 
-### `scaffold check [path]`
-
-Validate a package against modern npm best practices:
+### `scaffold-kit check`
 
 ```bash
-scaffold check
-# or
-scaffold check ./my-package
+scaffold-kit check --score
+scaffold-kit check --fix
+scaffold-kit check --size-limit 50KB
 ```
 
-Checks include:
+Validates:
 - ✔ `exports` field validity
 - ✔ TypeScript types presence
-- ✔ Side effects configuration
 - ✔ Tree-shaking compatibility
+- ✔ Bundle size limits
 - ✔ Peer dependency correctness
-- ✔ Deprecated patterns detection
-- ✔ Build output verification
 
-### `scaffold release`
-
-Safe versioning and publishing to npm:
+### `scaffold-kit publish`
 
 ```bash
-scaffold release
-# or
-scaffold release --dry-run
+scaffold-kit publish --dry-run
+scaffold-kit publish --tag beta
 ```
 
-Features:
-- Semantic versioning (patch/minor/major)
-- Automatic changelog updates
-- Dry-run mode
-- Pre-release support
+8 Pre-flight checks:
+1. Git status clean
+2. On main/master branch
+3. Tests pass
+4. Build succeeds
+5. Registry reachable
+6. Version available
+7. Changelog updated
+8. No secrets exposed
 
-### `scaffold info`
-
-Display CLI information and available generators:
+### `scaffold-kit migrate`
 
 ```bash
-scaffold info
+scaffold-kit migrate --from rollup --to tsup
+scaffold-kit migrate --from cjs --to esm
+scaffold-kit migrate --from jest --to vitest
 ```
 
-## Supported Frameworks
-
-| Framework | Package Types | Status |
-|-----------|---------------|--------|
-| React | library, plugin, utility | ✅ v1 |
-| Vue 3 | library, plugin, utility | ✅ v1 |
-| Svelte | library, plugin, utility | ✅ v1 |
-| TypeScript | utility, library, SDK | ✅ v1 |
-| Node.js | utility, library, CLI, SDK | ✅ v1 |
-| Angular | library, plugin | 🔜 Planned |
-| SolidJS | library, plugin | 🔜 Planned |
-| Qwik | library, integration | 🔜 Planned |
-| Astro | integration | 🔜 Planned |
-
-## Architecture
-
-Scaffold uses a **pluggable generator architecture** that allows adding new frameworks without modifying core logic:
-
-```
-scaffold-cli/
-├── src/
-│   ├── bin/           # CLI entry point
-│   ├── commands/      # CLI commands (create, check, release)
-│   ├── core/          # Framework-agnostic core
-│   │   ├── registry.ts        # Generator registry
-│   │   ├── base-generator.ts  # Base generator class
-│   │   ├── generator.ts       # Package generation logic
-│   │   ├── validator.ts       # Package validation
-│   │   ├── template-engine.ts # Handlebars templates
-│   │   └── logger.ts          # Structured logging
-│   ├── generators/    # Framework-specific generators
-│   │   ├── react/
-│   │   ├── vue/
-│   │   ├── svelte/
-│   │   ├── vanilla/
-│   │   └── node/
-│   └── types/         # TypeScript type definitions
-├── templates/         # Handlebars templates
-│   ├── common/        # Shared templates
-│   ├── react/
-│   ├── vue/
-│   ├── svelte/
-│   ├── vanilla/
-│   └── node/
-```
-
-## Creating a Custom Generator
-
-Extend the `BaseGenerator` class to create custom generators:
-
-```typescript
-import { BaseGenerator, GeneratorMeta, GeneratorConfig } from '@aspect/scaffold';
-
-export class MyGenerator extends BaseGenerator {
-  readonly meta: GeneratorMeta = {
-    id: 'my-framework',
-    name: 'My Framework',
-    framework: 'my-framework',
-    description: 'Generate packages for my framework',
-    version: '1.0.0',
-    supportedPackageTypes: ['library', 'plugin'],
-    supportedRuntimeTargets: ['browser'],
-    recommendedBuildSystem: 'vite',
-  };
-
-  protected getFrameworkDependencies(config: GeneratorConfig) {
-    return [
-      this.peerDep('my-framework', '^1.0.0'),
-      this.devDep('@types/my-framework', '^1.0.0'),
-    ];
-  }
-
-  protected getFrameworkFiles(config: GeneratorConfig) {
-    return [
-      { path: 'src/index.ts', template: 'my-framework/index.ts.hbs', isTemplate: true },
-    ];
-  }
-
-  protected getFrameworkPackageJsonExtras(config: GeneratorConfig) {
-    return {};
-  }
-}
-```
-
-## Modern JavaScript Standards
-
-Generated packages follow modern best practices:
-
-- ✅ ESM-first strategy with proper `exports` field
-- ✅ Conditional exports for different environments
-- ✅ Correct TypeScript types resolution
-- ✅ Peer dependency discipline
-- ✅ Tree-shaking optimizations
-- ✅ Zero deprecated npm patterns
-
-## Development
+### `scaffold-kit docs`
 
 ```bash
+scaffold-kit docs --format markdown
+scaffold-kit docs serve --port 3000
+```
+
+---
+
+## 🎨 Supported Frameworks
+
+| Framework | Package Types | Build System |
+|-----------|---------------|--------------|
+| React | library, plugin, utility | tsup, Vite |
+| Vue 3 | library, plugin, utility | tsup, Vite |
+| Svelte | library, plugin, utility | Vite |
+| TypeScript | utility, library, SDK | tsup |
+| Node.js | utility, library, CLI, SDK | tsup |
+
+---
+
+## 🔧 Template Presets
+
+| Preset | Features |
+|--------|----------|
+| **Minimal** | TypeScript, tsup, basic setup |
+| **Standard** | + Vitest, ESLint, GitHub Actions |
+| **Enterprise** | + Husky, Commitlint, Semantic Release, Changesets |
+| **Component Library** | + Storybook, Visual testing |
+
+---
+
+## 📚 Documentation
+
+**Live Documentation**: [https://sitharaj88.github.io/scaffoldkit/](https://sitharaj88.github.io/scaffoldkit/)
+
+Or run locally:
+```bash
+cd docs-site
+npm install
+npm run dev
+```
+
+Documentation covers:
+- **Getting Started** - Installation, Quick Start
+- **Core Concepts** - Architecture, CLI Commands, Configuration
+- **Features** - Presets, CI Templates, Quality Score, Migration, and more
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) first.
+
+```bash
+# Clone the repository
+git clone https://github.com/sitharaj88/scaffoldkit.git
+
 # Install dependencies
+cd scaffoldkit
 npm install
 
-# Build the CLI
+# Build
 npm run build
 
-# Run in development mode
-npm run dev
-
-# Run tests
-npm test
-
-# Type check
-npm run typecheck
+# Run locally
+node dist/bin/scaffold.js --help
 ```
 
-## License
+---
 
-MIT
+## ☕ Support
 
-## Author
+If you find Scaffold-Kit helpful, consider buying me a coffee!
 
-Sitharaj
+<a href="https://buymeacoffee.com/sitharaj88" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="180">
+</a>
+
+---
+
+## 📄 License
+
+MIT © [Sitharaj Seenvivasan](https://github.com/sitharaj88)
+
+---
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/sitharaj88/scaffoldkit)
+- [npm Package](https://www.npmjs.com/package/@sitharaj08/scaffold-kit)
+- [Issue Tracker](https://github.com/sitharaj88/scaffoldkit/issues)
+- [Changelog](CHANGELOG.md)
+- [Buy Me a Coffee](https://buymeacoffee.com/sitharaj88)
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/sitharaj88">Sitharaj Seenvivasan</a>
+</p>

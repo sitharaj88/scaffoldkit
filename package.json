@@ -1,6 +1,6 @@
 {
-  "name": "@aspect/scaffold",
-  "version": "1.0.0",
+  "name": "@sitharaj08/scaffold-kit",
+  "version": "1.0.0-alpha.1",
   "description": "Production-grade CLI for creating, validating, and publishing JavaScript/TypeScript libraries across all modern frameworks",
   "type": "module",
   "main": "./dist/index.js",
@@ -44,22 +44,36 @@
     "typescript",
     "framework-agnostic"
   ],
-  "author": "Sitharaj",
+  "author": {
+    "name": "Sitharaj Seenvivasan",
+    "url": "https://github.com/sitharaj88"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sitharaj88/scaffoldkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sitharaj88/scaffoldkit/issues"
+  },
+  "homepage": "https://github.com/sitharaj88/scaffoldkit#readme",
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@inquirer/prompts": "^7.2.0",
+    "boxen": "^8.0.1",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
-    "@inquirer/prompts": "^7.2.0",
-    "ora": "^8.1.1",
+    "execa": "^9.5.2",
     "fs-extra": "^11.2.0",
     "glob": "^11.0.0",
-    "semver": "^7.6.3",
-    "validate-npm-package-name": "^6.0.0",
+    "gradient-string": "^3.0.0",
     "handlebars": "^4.7.8",
-    "execa": "^9.5.2"
+    "ora": "^8.1.1",
+    "prettier": "^3.7.4",
+    "semver": "^7.6.3",
+    "validate-npm-package-name": "^6.0.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
